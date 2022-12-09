@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "TnZZk31+ZyaW5U41FBTuEChKWjEo6eoI52LWy/kiOm0=",
+  "Source": "MovieServer",
+  "BasePath": "_content/MovieServer",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
