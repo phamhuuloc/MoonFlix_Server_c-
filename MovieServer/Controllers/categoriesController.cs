@@ -16,7 +16,7 @@ namespace MovieServer.Controllers
         {
             try
             {
-                categoriesServices categoriesservices = new categoriesServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+                categoriesServices categoriesservices = new categoriesServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
 
                 var list = categoriesservices.getAllCategories();
 
@@ -43,7 +43,7 @@ namespace MovieServer.Controllers
 
             try
             {
-                categoriesServices categoriesservices = new categoriesServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+                categoriesServices categoriesservices = new categoriesServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
                 var count = categoriesservices.createNewCategorie(categorie);
                 if (count > 0)
                 {
@@ -76,7 +76,7 @@ namespace MovieServer.Controllers
         [Authorize]
         public IActionResult updateCategories(Categorie  categorie,int id)
         {
-            categoriesServices categoriesservices = new categoriesServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+            categoriesServices categoriesservices = new categoriesServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
             var count = categoriesservices.updateCategories(categorie,id);
             try
             {
@@ -117,7 +117,7 @@ namespace MovieServer.Controllers
         public IActionResult deleteCategories(int id)
         {
 
-            categoriesServices categoriesservices = new categoriesServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+            categoriesServices categoriesservices = new categoriesServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
             var count = categoriesservices.deleteCategories(id);
             try
             {
@@ -157,7 +157,7 @@ namespace MovieServer.Controllers
 
             try
             {
-                categoriesServices categoriesservices = new categoriesServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+                categoriesServices categoriesservices = new categoriesServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
                 var list = categoriesservices.getListMovieOfCategorie(cate_name);
 
                 return Ok(new
@@ -167,7 +167,7 @@ namespace MovieServer.Controllers
                     Data = list
                 });
 
-
+                
 
             }
             catch

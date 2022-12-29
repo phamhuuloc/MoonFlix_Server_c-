@@ -11,24 +11,25 @@ namespace MovieServer.Controllers
     public class userVoucherController : ControllerBase
     {
         [HttpPost("userVoucher/by-voucher")]
-        [Authorize]
+        
         public IActionResult byMovie(UserVoucher user_voucher)
         {
+            userVoucherServices user_voucher_services = new userVoucherServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
+            object DTO = user_voucher_services.byVoucher(user_voucher);
 
             try
             {
-                userVoucherServices user_voucher_services = new userVoucherServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
-                object DTO = user_voucher_services.byVoucher(user_voucher);
+                
                 Boolean sucess = Convert.ToBoolean(DTO.GetType().GetProperty("Success").GetValue(DTO, null));
                 if (sucess == false)
                 {
                     return BadRequest(DTO);
                 }
-                return Ok(DTO);
+                return Ok(DTO); 
             }
             catch
             {
-                return BadRequest();
+                return BadRequest(DTO);
             }
 
         }

@@ -22,7 +22,7 @@ namespace MovieServer.Controllers
         {
             try
             {
-                userServices userservies = new userServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+                userServices userservies = new userServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
 
                 var list = userservies.getAllUser();
 
@@ -40,12 +40,12 @@ namespace MovieServer.Controllers
         }
 
 
-        [HttpGet("{id}")]
+        [HttpGet("/user/{id}")]
         public IActionResult getUserById(int id)
         {
             try
             {
-                userServices userservies = new userServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+                userServices userservies = new userServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
                 Console.Write(userservies);
                 var user = userservies.getUser(id);
                 if (user == null)
@@ -70,19 +70,15 @@ namespace MovieServer.Controllers
         {
             try
             {
-                userServices userservies = new userServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
-          
-                var user = userservies.getTopUser();
-                if (user == null)
+                userServices userservies = new userServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
+                object DTO = userservies.getTopUser();
+
+                if ( DTO == null)
                 {
                     return NotFound();
                 }
-                return Ok(new
-                {
-                    Success = true,
-                    message = "get user sucessfully",
-                    Data = user
-                });
+
+                return Ok(DTO);
             }
             catch
             {
@@ -97,7 +93,7 @@ namespace MovieServer.Controllers
 
             try
             {
-                userServices userservies = new userServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+                userServices userservies = new userServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
                 var count = userservies.createNewUser(user);
                 if (count > 0)
                 {
@@ -132,7 +128,7 @@ namespace MovieServer.Controllers
 
             try
             {
-                userServices userservies = new userServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+                userServices userservies = new userServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
                 var count = userservies.updateUser(user,id);
                 if (count > 0)
                 {
@@ -169,7 +165,7 @@ namespace MovieServer.Controllers
         [Authorize]
         public IActionResult deleteUser(int id )
         {
-            userServices userservies = new userServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+            userServices userservies = new userServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
             int count = userservies.deleteUser(id);
             try
             {
@@ -205,13 +201,13 @@ namespace MovieServer.Controllers
         }
 
         // GET  MOVIE OF USER
-        [HttpPost("user/list-movies/{id}")]
+        [HttpGet("user/list-movies/{id}")]
         public IActionResult getMovieOfUser(int id)
         {
 
             try
             {
-                userServices userservies = new userServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+                userServices userservies = new userServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
                 var list  = userservies.getMovieOfUser(id);
 
                 return Ok(new
@@ -235,13 +231,13 @@ namespace MovieServer.Controllers
 
         }
         // GET VOUCHER OF USER 
-        [HttpPost("user/list-vouchers/{id}")]
+        [HttpGet("user/list-vouchers/{id}")]
         public IActionResult getVoucherOfUser(int id)
         {
 
             try
             {
-                userServices userservies = new userServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+                userServices userservies = new userServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
                 var list = userservies.getVoucherOfUser(id);
 
                 return Ok(new
@@ -265,6 +261,67 @@ namespace MovieServer.Controllers
 
         }
 
+        [HttpGet("user/revenue")]
+        public IActionResult getRevenue()
+        {
+            userServices userservies = new userServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
+            object DTO = userservies.getRevenue();
+            try
+            {
+
+                Boolean checkData = Convert.ToBoolean(DTO.GetType().GetProperty("Success").GetValue(DTO, null));
+
+                if (checkData == false)
+                {
+                    return BadRequest(DTO);
+                }
+
+                return Ok(DTO);
+
+             
+            }
+            catch
+            {
+                return BadRequest(new
+                {
+                    Success = false,
+                    Message = "Get revenue of  user failer 404!"
+                });
+            }
+
+        }
+        // Get Stats Of user
+        [HttpGet("user/status")]
+        public IActionResult getStasUser()
+        {
+
+            try
+            {
+                userServices userservies = new userServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
+                var list = userservies.getStasUser();
+
+                return Ok(new
+                {
+                    Success = true,
+                    Message = "Get Status  user succesfully!",
+                    Data = list
+                });
+
+
+
+            }
+            catch
+            {
+                return BadRequest(new
+                {
+                    Success = false,
+                    Message = "Get Status  of  user failer!"
+                });
+            }
+
+        }
+        //[HttpPost("user/vnpay_payment")]
+    
 
     }
 

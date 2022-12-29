@@ -41,12 +41,13 @@ namespace MovieServer.Services
             using (MySqlConnection conn = GetConnection())
             {
                 conn.Open();
-                var str = "update suppliers set sl_name = @sl_name, sl_email = @sl_email, sl_phone = @sl_phone ,sl_address = @sl_address where id = @id";
+                var str = "update suppliers set sl_name = @sl_name, sl_email = @sl_email, sl_phone = @sl_phone ,sl_address = @sl_address, image = @image where id = @id";
                 MySqlCommand cmd = new MySqlCommand(str, conn);
                 cmd.Parameters.AddWithValue("sl_name", supplier.sl_name);
                 cmd.Parameters.AddWithValue("sl_email", supplier.sl_email);
                 cmd.Parameters.AddWithValue("sl_phone", supplier.sl_phone);
                 cmd.Parameters.AddWithValue("sl_address", supplier.sl_address);
+                cmd.Parameters.AddWithValue("image", supplier.image);
                 cmd.Parameters.AddWithValue("id", id);
                 return (cmd.ExecuteNonQuery());
             }
@@ -85,6 +86,7 @@ namespace MovieServer.Services
                             sl_email = reader["sl_email"].ToString(),
                             sl_phone = reader["sl_phone"].ToString(),
                             sl_address = reader["sl_address"].ToString(),
+                            image = reader["image"].ToString(),
 
                         });
                     }
@@ -114,7 +116,10 @@ namespace MovieServer.Services
                     supplier.sl_email = reader["sl_email"].ToString();
                     supplier.sl_phone = reader["sl_phone"].ToString();
                     supplier.sl_address = reader["sl_address"].ToString();
-                   
+
+                    supplier.image = reader["image"].ToString();
+
+
                 }
 
             }

@@ -24,10 +24,10 @@ namespace MovieServer.Services
             {
 
                 conn.Open();
-                var str = "insert into vouchers (image ,voucher_code , description,supplier_name ,point_cost) values(@image,@voucher_code,@description,@supplier_name,@point_cost)";
+                var str = "insert into vouchers (image ,percent_discount , description,supplier_name ,point_cost) values(@image,@percent_discount,@description,@supplier_name,@point_cost)";
                 MySqlCommand cmd = new MySqlCommand(str, conn);
                 cmd.Parameters.AddWithValue("image", voucher.image);
-                cmd.Parameters.AddWithValue("voucher_code", voucher.voucher_code);
+                cmd.Parameters.AddWithValue("percent_discount", voucher.percent_discount);
                 cmd.Parameters.AddWithValue("description", voucher.description);
                 cmd.Parameters.AddWithValue("supplier_name", voucher.supplier_name);
                 cmd.Parameters.AddWithValue("point_cost", voucher.point_cost);
@@ -41,11 +41,11 @@ namespace MovieServer.Services
             using (MySqlConnection conn = GetConnection())
             {
                 conn.Open();
-                var str = "update vouchers set image = @image , voucher_code = @voucher_code , description = @description ,supplier_name =@supplier_name, point_cost = @point_cost where id = @id";
+                var str = "update vouchers set image = @image , percent_discount = @percent_discount , description = @description ,supplier_name =@supplier_name, point_cost = @point_cost where id = @id";
                 MySqlCommand cmd = new MySqlCommand(str, conn);
                 cmd.Parameters.AddWithValue("id", voucher.id);
                 cmd.Parameters.AddWithValue("image",voucher.image);
-                cmd.Parameters.AddWithValue("voucher_code", voucher.voucher_code);
+                cmd.Parameters.AddWithValue("percent_discount", voucher.percent_discount);
                 cmd.Parameters.AddWithValue("description", voucher.description);
                 cmd.Parameters.AddWithValue("supplier_name", voucher.supplier_name);
                 cmd.Parameters.AddWithValue("point_cost", voucher.point_cost);
@@ -67,9 +67,9 @@ namespace MovieServer.Services
 
         }
         // GET LIST ALL Movie
-        public List<Voucher> getAllVoucher()
+        public List<object> getAllVoucher()
         {
-            List<Voucher> list = new List<Voucher>();
+            List<object> list = new List<object>();
 
             using (MySqlConnection conn = GetConnection())
             {
@@ -80,17 +80,21 @@ namespace MovieServer.Services
                 {
                     while (reader.Read())
                     {
-                        list.Add(new Voucher()
+                        var obj = new
                         {
-                          id = Convert.ToInt32(reader["id"]),
-                          image = reader["image"].ToString(),
-                          voucher_code = reader["voucher_code"].ToString(),
-                          description = reader["description"].ToString(),
-                          supplier_name = reader["supplier_name"].ToString(),
-                          point_cost = Convert.ToDouble(reader["point_cost"])
+                            id = Convert.ToInt32(reader["id"]),
+                            image = reader["image"].ToString(),
+                            percent_discount = Convert.ToDouble(reader["percent_discount"]),
+                            description = reader["description"].ToString(),
+                            supplier_name = reader["supplier_name"].ToString(),
+                            point_cost = Convert.ToDouble(reader["point_cost"]),
+                            create_at = reader["create_at"].ToString()
+                        };
 
-                        });
-                    }
+                        list.Add(obj);
+                    };
+
+                
                     reader.Close();
                 }
 
@@ -116,7 +120,7 @@ namespace MovieServer.Services
                         reader.Read();
                         voucher.id = Convert.ToInt32(reader["id"]);
                         voucher.image = reader["image"].ToString();
-                        voucher.voucher_code = reader["voucher_code"].ToString();
+                        voucher.percent_discount = Convert.ToDouble(reader["percent_discount"]);
                         voucher.description = reader["description"].ToString();
                         voucher.supplier_name = reader["supplier_name"].ToString();
                         voucher.point_cost = Convert.ToDouble(reader["point_cost"]);

@@ -15,15 +15,15 @@ namespace MovieServer.Controllers
         {
             try
             {
-                voucherServices voucherservices = new voucherServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+                voucherServices voucherservices = new voucherServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
 
-                var list = voucherservices.getAllVoucher();
+                var DTO = voucherservices.getAllVoucher();
 
                 return Ok(new
                 {
                     Success = true,
                     Message = "Get list  voucher  succesfully",
-                    Data = list
+                    Data = DTO
                 });
             }
             catch
@@ -36,7 +36,7 @@ namespace MovieServer.Controllers
         [HttpGet("/voucher/{id}")]
         public IActionResult getVoucherById(int id)
         {
-            voucherServices voucherservices = new voucherServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+            voucherServices voucherservices = new voucherServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
             var voucher = voucherservices.getVoucher(id);
 
             try
@@ -63,7 +63,7 @@ namespace MovieServer.Controllers
         [Authorize]
         public IActionResult createNewVoucher(Voucher voucher)
         {
-            voucherServices voucherservices = new voucherServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+            voucherServices voucherservices = new voucherServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
             var count = voucherservices.createNewVoucher(voucher);
             try
             {
@@ -101,7 +101,7 @@ namespace MovieServer.Controllers
 
             try
             {
-                voucherServices voucherservices = new voucherServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+                voucherServices voucherservices = new voucherServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
                 var count = voucherservices.updateVoucher(voucher, id);
                 if (count > 0)
                 {
@@ -137,7 +137,7 @@ namespace MovieServer.Controllers
         [Authorize]
         public IActionResult deleteVoucher(int id)
         {
-            voucherServices voucherservices = new voucherServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+            voucherServices voucherservices = new voucherServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
             var count = voucherservices.deleteVoucher(id);
             try
             {

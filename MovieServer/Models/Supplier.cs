@@ -7,6 +7,7 @@
         private string Sl_email;
         private string Sl_phone;
         private string Sl_address;
+        private string Image;
         
        public int  id
         {
@@ -33,14 +34,20 @@
             get { return Sl_address; }
             set { Sl_address = value; }
         }
+        public string image
+        {
+            get { return Image; }
+            set { Image = value; }
+        }
         public Supplier() { }
-        public Supplier( int id , string sl_name , string sl_email ,string sl_phone , string sl_address)
+        public Supplier( int id , string sl_name , string sl_email ,string sl_phone , string sl_address,string image)
         {
             this.Id = id;
             this.Sl_name = sl_name;
             this.Sl_email = sl_email;
             this.Sl_phone = sl_phone;
             this.Sl_address = sl_address;
+            this.Image = image; 
         }
     }
 }

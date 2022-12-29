@@ -33,34 +33,31 @@ namespace MovieServer.Services
                 return (cmd.ExecuteNonQuery());
             }
         }
-        public object getAllRatringOfMovie(int movie_id)
+        public List<object> getAllRatingOfMovie(int id)
         {
             List<object> list = new List<object>();
             using (MySqlConnection conn = GetConnection())
             {
                 conn.Open();
-                string str = "SELECT   user.username, user.profilePic , ratings.r_number_star, ratings.r_content from  user INNER JOIN ratings  on user.id = ratings.r_user_id WHERE   ratings.r_movie_id = @id;";
+                string str = "select user.profilePic , user.username , ratings.r_content , ratings.create_at from  user  inner join ratings on user.id = ratings.r_user_id where ratings.r_movie_id = @id";
                
                 MySqlCommand cmd = new MySqlCommand(str, conn);
-                cmd.Parameters.AddWithValue("id", movie_id);
+                cmd.Parameters.AddWithValue("id", id);
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        var ob = new { username = reader["username"].ToString(), profilePic = reader["profilePic"].ToString(), r_number_star = Convert.ToInt32(reader["r_number_star"]), r_content = reader["r_content"].ToString() };
+                        var ob = new { username = reader["username"].ToString(), profilePic = reader["profilePic"].ToString(), r_content = reader["r_content"].ToString(), create_at = reader["create_at"].ToString()};
                         list.Add(ob);
                     }
+
                     reader.Close();
                 }
 
                 conn.Close();
 
             }
-            return new
-            {
-                Success = true,
-                List = list
-            };
+            return list;
         }
 
         public int deleteRating (int rating_id)

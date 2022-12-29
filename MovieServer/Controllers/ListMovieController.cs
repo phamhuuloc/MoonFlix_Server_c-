@@ -11,10 +11,10 @@ namespace MovieServer.Controllers
     public class ListMovieController : ControllerBase
     {
         [HttpPost("/create/listMovie")]
-        [Authorize]
+        [Authorize] 
         public IActionResult createNewListMovie(ListMovie listMovie)
         {
-            listMovieServices list_movie_services = new listMovieServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+            listMovieServices list_movie_services = new listMovieServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
             var count = list_movie_services.createNewListMovie(listMovie);
             try
             {
@@ -44,51 +44,90 @@ namespace MovieServer.Controllers
             }
 
         }
-        // UPDATE MOVIE
-        //[HttpPost("listMovie/update/{id}")]
+        // Get All Movie Of  list id 
+        [HttpGet("listMovie/{id}")]
 
-        //public IActionResult updateListMovie(ListMovie listMovie)
-        //{
+        public IActionResult allMovieOfList(int id)
+        {
 
-        //    try
-        //    {
-        //        listMovieServices list_movie_services = new listMovieServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
-        //        var count = list_movie_services.updateListMovie(listMovie);
-        //        if (count > 0)
-        //        {
-        //            return Ok(new
-        //            {
-        //                Success = true,
-        //                Message = "Update list Movie succesfully!",
-        //                Data = listMovie
-        //            });
-        //        }
-        //        return BadRequest(new
-        //        {
-        //            Success = false,
-        //            Message = "Update list Movie failer!"
-        //        });
+            try
+            {
+                listMovieServices list_movie_services = new listMovieServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
+                var lists = list_movie_services.allMovieOfList( id);
+                if (lists != null)
+                {
+                    return Ok(new
+                    {
+                        Success = true,
+                        Message = "Get  list Movie succesfully!",
+                        Data = lists
+                    });
+                }
+                return BadRequest(new
+                {
+                    Success = false,
+                    Message = "Get list Movie failer!"
+                });
 
-        //    }
-        //    catch
-        //    {
-        //        return BadRequest(new
-        //        {
-        //            Success = false,
-        //            Message = "Update list Movie failer 404 !"
-        //        });
-        //    }
+            }
+            catch
+            {
+                return BadRequest(new
+                {
+                    Success = false,
+                    Message = "Update list Movie failer 404 !"
+                });
+            }
 
-        //}
+        }
 
 
-        // DELETE MOVIE 
-        [HttpPost("/listMovie/delete/{id}")]
+        // DELETE list movie 
+        [HttpPost("/listMovie/delete/list/{id}")]
         [Authorize]
         public IActionResult deleteListMovie(int id)
         {
-            listMovieServices list_movie_services = new listMovieServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+            listMovieServices list_movie_services = new listMovieServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
             var count = list_movie_services.deleteListMovie(id);
+            try
+            {
+
+
+                if (count > 0)
+                {
+                    return Ok(new
+                    {
+                        Success = true,
+                        Message = "Delete  Movie from list  succesfully!",
+
+                    });
+                }
+                return BadRequest(new
+                {
+                    Success = false,
+                    Message = "Delete   Movie from list failer!",
+
+                });
+
+            }
+            catch
+            {
+                return BadRequest(new
+                {
+                    Success = false,
+                    Message = "Not found Movie on list 404!",
+
+
+                });
+            }
+        }
+        // Delete Movie of list
+        [HttpPost("/listMovie/delete/movie")]
+        [Authorize]
+        public IActionResult deleteMovieOfList(ListMovie listMovie)
+        {
+            listMovieServices list_movie_services = new listMovieServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
+            var count = list_movie_services.deleteMovieOfList(listMovie);
             try
             {
 

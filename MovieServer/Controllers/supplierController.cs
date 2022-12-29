@@ -16,7 +16,7 @@ namespace MovieServer.Controllers
         {
             try
             {
-                supplierServices supplierservices = new supplierServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+                supplierServices supplierservices = new supplierServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
 
                 var list = supplierservices.getAllSuppliers();
 
@@ -34,12 +34,12 @@ namespace MovieServer.Controllers
         }
 
 
-        [HttpGet("supplierrs/{id}")]
+        [HttpGet("supplier/{id}")]
         public IActionResult getSupplierById(int id)
         {
             try
             {
-                supplierServices supplierservices = new supplierServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+                supplierServices supplierservices = new supplierServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
                 
                 var supplier = supplierservices.GetSupplierById(id);
                 if (supplier == null)
@@ -67,7 +67,7 @@ namespace MovieServer.Controllers
 
             try
             {
-                supplierServices supplierservices = new supplierServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+                supplierServices supplierservices = new supplierServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
                 var count = supplierservices.createNewSupplier(supplier);
                 if (count > 0)
                 {
@@ -101,7 +101,7 @@ namespace MovieServer.Controllers
 
         public IActionResult updateSupplier(Supplier supplier, string id)
         {
-            supplierServices supplierservices = new supplierServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+            supplierServices supplierservices = new supplierServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
             var count = supplierservices.updateSupplier(supplier, id);
             try
             {
@@ -139,7 +139,7 @@ namespace MovieServer.Controllers
         [Authorize]
         public IActionResult deleteSupplier(int id)
         {
-            supplierServices supplierservices = new supplierServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+            supplierServices supplierservices = new supplierServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
             int count = supplierservices.deleteSupplier(id);
             try
             {

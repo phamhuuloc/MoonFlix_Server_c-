@@ -18,10 +18,12 @@ namespace MovieServer.Controllers
         [HttpPost("user/login")]
         public IActionResult login(Auth userInfo)
         {
+            authServices authservices = new authServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
+            object DTO = authservices.login(userInfo);
             try
             {
-                authServices authservices = new authServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
-                object DTO = authservices.login(userInfo);
+                //server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;
+                
                 Boolean checkUser = Convert.ToBoolean(DTO.GetType().GetProperty("Success").GetValue(DTO, null));
                 
                 if (checkUser == false){
@@ -36,9 +38,9 @@ namespace MovieServer.Controllers
             }
         }
         [HttpPost("user/register")]
-        public IActionResult register(Auth userInfo)
+        public IActionResult register(FaceInfo userInfo)
         {
-            authServices authservices = new authServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+            authServices authservices = new authServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
             object DTO = authservices.register(userInfo);
             try
             {

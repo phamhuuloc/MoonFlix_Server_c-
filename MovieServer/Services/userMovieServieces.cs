@@ -21,11 +21,11 @@ namespace MovieServer.Services
         private  double checkWalletBalance(int user_id , int movie_id)
         {
             // get wallet balance of user 
-            userServices userServices = new userServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+            userServices userServices = new userServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
             var user = userServices.getUser(user_id);
             double wallet_balance = user.wallet_balance;
             //get price of movie 
-            movieServices movieservices = new movieServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+            movieServices movieservices = new movieServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
             var movie = movieservices.getMovie(movie_id);
             double price = movie.price;
             return wallet_balance - price;
@@ -54,7 +54,7 @@ namespace MovieServer.Services
 
         public object  byMovie(UserMovie user_movie)
         {
-            movieServices movieservices = new movieServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+            movieServices movieservices = new movieServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
             var movie = movieservices.getMovie(user_movie.um_movie_id);
             double price = movie.price;
 

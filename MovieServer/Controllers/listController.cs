@@ -11,12 +11,12 @@ namespace MovieServer.Controllers
     {
 
 
-        [HttpGet("/lits/")]
+        [HttpGet("/lists/")]
         public IActionResult getAlllistMovie()
         {
             try
             {
-                listServices list_services = new listServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+                listServices list_services = new listServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
 
                 var list = list_services.getAllList();
 
@@ -38,7 +38,7 @@ namespace MovieServer.Controllers
         public IActionResult getListMovieById(int id)
         {
 
-            listServices list_services = new listServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+            listServices list_services = new listServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
             var list = list_services.getList(id);
 
             try
@@ -59,13 +59,68 @@ namespace MovieServer.Controllers
                 return BadRequest();
             }
         }
+
+        //Get all movie of list
+
+       [HttpGet("lists/movies")]
+        public IActionResult getAllMovieOfList()
+        {
+
+            listServices list_services = new listServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
+            var list = list_services.getAllMovieOfList();
+
+            try
+            {
+                if (list == null)
+                {
+                    return NotFound();
+                }
+                return Ok(new
+                {
+                    Success = true,
+                    message = "Get list movie sucessfully!",
+                    Data = list
+                });
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("lists/movies/{type}")]
+        public IActionResult filterMovieWithType(string type)
+        {
+
+            listServices list_services = new listServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
+            var list = list_services.filterMovieWithType(type);
+
+            try
+            {
+                if (list == null)
+                {
+                    return NotFound();
+                }
+                return Ok(new
+                {
+                    Success = true,
+                    message = "Get list movie sucessfully!",
+                    Data = list
+                });
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         // CREATE NEW MOVIE 
 
         [HttpPost("/create/list")]
         [Authorize]
         public IActionResult createNewList(List listMovie)
         {
-            listServices list_services = new listServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+            listServices list_services = new listServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
             var count = list_services.createNewList(listMovie);
             try
             {
@@ -103,7 +158,7 @@ namespace MovieServer.Controllers
 
             try
             {
-                listServices list_services = new listServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+                listServices list_services = new listServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
                 var count = list_services.createNewList(listMovie);
                 if (count > 0)
                 {
@@ -135,11 +190,12 @@ namespace MovieServer.Controllers
 
 
         // DELETE MOVIE 
+        
         [HttpPost("/lists/delete/{id}")]
         [Authorize]
         public IActionResult deleteListMovie(int id)
         {
-            listServices list_services = new listServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+            listServices list_services = new listServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
             var count = list_services.deleteListMovie(id);
             try
             {

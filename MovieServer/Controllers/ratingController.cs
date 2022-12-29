@@ -14,7 +14,7 @@ namespace MovieServer.Controllers
         [Authorize]
         public IActionResult createNewRating (Rating rating)
         {
-            ratingServices rating_services = new ratingServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+            ratingServices rating_services = new ratingServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
             var count = rating_services.createNewRating(rating);
             try
             {
@@ -47,7 +47,7 @@ namespace MovieServer.Controllers
         [Authorize]
         public IActionResult deleteRating(int movie_id)
         {
-            ratingServices rating_services = new ratingServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+            ratingServices rating_services = new ratingServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
             var count = rating_services.deleteRating(movie_id);
             try
             {
@@ -76,16 +76,16 @@ namespace MovieServer.Controllers
                 });
             }
         }
-        [HttpPost("/get/ratings/movie")]
-        public IActionResult getAllRatringOfMovie(int movie_id)
+        [HttpGet("/get/ratings/movie/{id}")]
+        public IActionResult getAllRatingOfMovie(int id)
         {
             {
-                ratingServices rating_services = new ratingServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
-                var ratings = rating_services.getAllRatringOfMovie(movie_id);
+                ratingServices rating_services = new ratingServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
+                var ratings = rating_services.getAllRatingOfMovie(id);
   
                 try
                 {
-                    Boolean success = Convert.ToBoolean(ratings.GetType().GetProperty("Success").GetValue(ratings, null));
+                    //Boolean success = Convert.ToBoolean(ratings.GetType().GetProperty("Success").GetValue(ratings, null));
                    
                     return Ok(ratings);
                 }

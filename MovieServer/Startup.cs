@@ -40,6 +40,14 @@ namespace MyWebApiApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAuthentication();
+            services.AddMvcCore().AddApiExplorer();
+            services.AddScoped<IVnPayService, VnPayService>();
+
+            //services.AddScoped<IVnPayService, VnPayService>();
+            services.AddCors(p => p.AddPolicy("MyCors", build =>
+            {
+                build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+            }));
 
             var secretKey = Configuration["AppSettings:SecretKey"];
             var secretKeyBytes = Encoding.UTF8.GetBytes(secretKey);
@@ -61,7 +69,7 @@ namespace MyWebApiApp
             });
             //services.AddControllersWithViews();
             services.AddMvc();
-            services.Add(new ServiceDescriptor(typeof(userServices), new userServices(Configuration.GetConnectionString("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;"))));
+            services.Add(new ServiceDescriptor(typeof(userServices), new userServices(Configuration.GetConnectionString("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;"))));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyWebApiApp", Version = "v1" });
@@ -85,7 +93,7 @@ namespace MyWebApiApp
 
             app.UseRouting();
             app.UseSwagger();
-
+            app.UseCors("MyCors");
             app.UseAuthentication();
     
             app.UseAuthorization();

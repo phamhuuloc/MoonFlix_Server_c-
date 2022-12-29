@@ -6,7 +6,7 @@ namespace MovieServer.Models
     {
         private int Id;
         private string Image;
-        private string Voucher_code;
+        private double Percent_discount;
         private string Description;
         private string Supplier_name;
         private double Point_cost;
@@ -21,10 +21,10 @@ namespace MovieServer.Models
             get { return Image; }
             set { Image = value; }
         }
-        public string voucher_code
+        public double percent_discount
         {
-            get { return Voucher_code; }
-            set { Voucher_code = value; }
+            get { return Percent_discount; }
+            set { Percent_discount = value; }
         }
         public string description
         {
@@ -54,11 +54,11 @@ namespace MovieServer.Models
         {
 
         }
-        public Voucher (int id  , string image , string voucher_code, string description, string supplier_name, double point_cost)
+        public Voucher (int id  , string image , string percent_disount, string description, string supplier_name, double point_cost)
         {
             this.Id = id;
             this.Image = image;
-            this.Voucher_code = voucher_code;
+            this.Percent_discount = percent_discount ;
             this.Description = description;
             this.Supplier_name = supplier_name;
             this.Point_cost = point_cost;

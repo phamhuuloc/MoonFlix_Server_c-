@@ -17,7 +17,7 @@ namespace MovieServer.Controllers
 
             try
             {
-                userMovieServieces user_movie_services   = new userMovieServieces("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+                userMovieServieces user_movie_services   = new userMovieServieces("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
                 object  DTO = user_movie_services.byMovie(user_movie);
                 Boolean sucess = Convert.ToBoolean(DTO.GetType().GetProperty("Success").GetValue(DTO, null));
                if(sucess == false)
@@ -37,7 +37,7 @@ namespace MovieServer.Controllers
 
         //public IActionResult updateSupplier(UserMovie user_movie, string id)
         //{
-        //    userMovieServieces user_movie_services = new userMovieServieces("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+        //    userMovieServieces user_movie_services = new userMovieServieces("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
         //    var count = user_movie_services.updateUserMovie(user_movie, id);
         //    try
         //    {
@@ -76,7 +76,7 @@ namespace MovieServer.Controllers
         //[HttpPost("userMovie/delete/{id}")]
         //public IActionResult deleteSupplier(int id)
         //{
-        //    userMovieServieces user_movie_services = new userMovieServieces("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+        //    userMovieServieces user_movie_services = new userMovieServieces("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
         //    int count = user_movie_services.deleteUserMovie(id);
         //    try
         //    {

@@ -15,7 +15,7 @@ namespace MovieServer.Controllers
         {
             try
             {   
-                movieServices movieservices = new movieServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+                movieServices movieservices = new movieServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
 
                 var list = movieservices.getAllMovies();
 
@@ -37,7 +37,7 @@ namespace MovieServer.Controllers
         public IActionResult getMovieById(int id)
         {
 
-            movieServices movieservices = new movieServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+            movieServices movieservices = new movieServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
             var movie = movieservices.getMovie(id);
 
             try
@@ -64,7 +64,7 @@ namespace MovieServer.Controllers
         public IActionResult getTopMovie()
         {
 
-            movieServices movieservices = new movieServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+            movieServices movieservices = new movieServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
             var list  = movieservices.getTopMovie();
 
             try
@@ -90,7 +90,7 @@ namespace MovieServer.Controllers
         public IActionResult getRevenueOfMovie(int id )
         {
 
-            movieServices movieservices = new movieServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+            movieServices movieservices = new movieServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
             var ob  = movieservices.getRevenueOfMovie(id);
 
             try
@@ -118,7 +118,7 @@ namespace MovieServer.Controllers
         [Authorize]
         public IActionResult createNewMovie(Movie movie)
         {
-            movieServices movieservices = new movieServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+            movieServices movieservices = new movieServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
             var count = movieservices.createNewMovie(movie);
             try
             {
@@ -156,7 +156,7 @@ namespace MovieServer.Controllers
 
             try
             {
-                movieServices movieservices = new movieServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+                movieServices movieservices = new movieServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
                 var count = movieservices.updateMovie(movie,id);
                 if (count > 0)
                 {
@@ -192,7 +192,7 @@ namespace MovieServer.Controllers
         [Authorize]
         public IActionResult deleteMovie(int id)
         {
-            movieServices movieservices = new movieServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+            movieServices movieservices = new movieServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
             var count = movieservices.deleteMovie(id);
             try
             {
@@ -235,7 +235,7 @@ namespace MovieServer.Controllers
 
             try
             {
-                movieServices movieservices = new movieServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+                movieServices movieservices = new movieServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
               
                 var list = movieservices.getCategorieOfMovie(id);
 
@@ -253,6 +253,34 @@ namespace MovieServer.Controllers
                 {
                     Success = false,
                     Message = "Get movie of  Movie failer!"
+                });
+            }
+
+        }
+        // Get Stats Of user
+        [HttpGet("movie/status/{id}")]
+        public IActionResult GetStasMovie(int id)
+        {
+
+            try
+            {
+                movieServices movieservices = new movieServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
+                var list = movieservices.GetStasMovie(id);
+
+                return Ok(new
+                {
+                    Success = true,
+                    Message = "Get Status  movie succesfully!",
+                    Data = list
+                });
+
+            }
+            catch
+            {
+                return BadRequest(new
+                {
+                    Success = false,
+                    Message = "Get Status  of  user failer!"
                 });
             }
 

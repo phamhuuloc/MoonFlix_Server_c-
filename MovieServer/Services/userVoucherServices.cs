@@ -20,11 +20,11 @@ namespace MovieServer.Services
         private double checkPointBalance (int user_id, int voucher_id)
         {
             // get wallet balance of user 
-            userServices userServices = new userServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+            userServices userServices = new userServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
             var user = userServices.getUser(user_id);
             double point = user.point;
             //get price of movie 
-            voucherServices voucherservices = new voucherServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+            voucherServices voucherservices = new voucherServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
             var voucher = voucherservices.getVoucher(voucher_id);
             double point_cost = voucher.point_cost;
             return point - point_cost;
@@ -38,7 +38,7 @@ namespace MovieServer.Services
             {
 
                 conn.Open();
-                var str = "SELECT COUNT(user.id) as 'quantity' from vouchers INNER JOIN user_vouchers uv on uv.uv_voucher_id = vouchers.id INNER JOIN user on user.id = uv.uv_user_id where vouchers.id =@voucher_id and user.id = @user_id;";
+                var str = "select  count(uv.id)  from  user_vouchers uv inner join vouchers on vouchers.id = uv.uv_voucher_id where  uv.uv_user_id = @user_id and  uv.uv_voucher_id = @voucher_id";
                 MySqlCommand cmd = new MySqlCommand(str, conn);
                 cmd.Parameters.AddWithValue("user_id", user_id);
                 cmd.Parameters.AddWithValue("voucher_id", voucher_id);
@@ -59,12 +59,13 @@ namespace MovieServer.Services
             int quantity = Convert.ToInt32(checkMovie.GetType().GetProperty("quantity").GetValue(checkMovie, null));
 
 
-            if (quantity > 0)
+            if (quantity > 1)
             {
                 return new
                 {
                     Success = false,
-                    Message = "The Voucher already exit on your vouchers list!"
+                    Message = "The Voucher already exit on your vouchers list!",
+                    Quantity = quantity
                 };
             }
             else if (checkPoint < 0)
@@ -88,7 +89,7 @@ namespace MovieServer.Services
                     cmd.Parameters.AddWithValue("uv_user_id", userVoucher.uv_user_id);
                     cmd.Parameters.AddWithValue("uv_voucher_id", userVoucher.uv_voucher_id);
                     int flag = cmd.ExecuteNonQuery();
-                    conn.Close();
+                    //conn.Close();
 
                     if (flag > 0)
                     {

@@ -158,7 +158,7 @@ namespace MovieServer.Services
             using (MySqlConnection conn = GetConnection())
             {
                 conn.Open();
-                string str = "SELECT * , COUNT(um.um_movie_id) as 'amount' from movie  INNER JOIN user_movies um on um.um_movie_id = movie.id GROUP BY um.um_movie_id  ORDER BY count(um.um_movie_id)  DESC LIMIT 10;";
+                string str = "SELECT movie.id, movie.supplier_id, movie.title,movie._desc,movie._limit, movie.year, movie.price, movie.img, movie.imgSm, movie.trailer, movie.video, movie.isSeries ,movie.clicked , (um.um_movie_id) as 'amount' from movie  INNER JOIN user_movies um on um.um_movie_id = movie.id GROUP BY um.um_movie_id  ORDER BY count(um.um_movie_id)  DESC LIMIT 10;";
                 MySqlCommand cmd = new MySqlCommand(str, conn);
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -234,12 +234,40 @@ namespace MovieServer.Services
                         });
                     }
                     reader.Close();
-
+                     
                 }
             }
             return (list);
 
         }
+        public List<object> GetStasMovie(int id)
+        {
+            List<object> userStatus = new List<object>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "SELECT Month(um.create_at) as 'month', SUM(movie.price) AS 'revenue' from movie  INNER JOIN user_movies um on um.um_movie_id = movie.id WHERE movie.id = @id  GROUP BY um.um_movie_id , Month(um.create_at)";
+
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("id", id);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        reader.Read();
+                        var ob = new { month = reader["month"].ToString(), total = Convert.ToInt32(reader["revenue"]) };
+                        userStatus.Add(ob);
+                    }
+                    reader.Close();
+
+                }
+                conn.Close();
+
+
+            }
+            return userStatus;
+        }
+
         //public List<Movie> getCategorieOfMovie(int id)
         //{
         //    List<Movie> list = new List<Movie>();

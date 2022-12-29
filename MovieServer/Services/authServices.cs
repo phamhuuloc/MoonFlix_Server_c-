@@ -40,7 +40,7 @@ namespace MovieServer.Services
                     new Claim("face_id", user.face_id),
 
                 }),
-                Expires = DateTime.UtcNow.AddMinutes(1),
+                Expires = DateTime.UtcNow.AddMinutes(100),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKeyBytes), SecurityAlgorithms.HmacSha512Signature)
             };
 
@@ -51,7 +51,7 @@ namespace MovieServer.Services
         // LOGIN FOR USER
         public object login(Auth userInfo)
         {
-            userServices userservices = new userServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+            userServices userservices = new userServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
             var user = userservices.findUserByEmail(userInfo.email);
             if (user == null)
             {
@@ -61,7 +61,17 @@ namespace MovieServer.Services
                     message = "Wrong password or email!",
                 };
             }
-            if (user.password != userInfo.password)
+            if( user.face_id == userInfo.password)
+            {
+                return new
+                {
+                    Success = true,
+                    Message = "Login Successfully!",
+                    Data = user,
+                    token = GenerateToken(user)
+                };
+            }
+            else if (user.password != userInfo.password)
             {
                 return new
                 {
@@ -74,8 +84,9 @@ namespace MovieServer.Services
                 Success = true,
                 Message = "Login Successfully!",
                 Data = user,
-                token  = GenerateToken(user)
+                token = GenerateToken(user)
             };
+
         }
 
         // REGISTER FOR USER
@@ -92,9 +103,9 @@ namespace MovieServer.Services
 
             }
         }
-        public object register(Auth userInfo)
+        public object register(FaceInfo userInfo)
         {
-            userServices userservices = new userServices("server=127.0.0.1;user id=root;password=;port=3306;database=moviestore;");
+            userServices userservices = new userServices("server=movieserver.mysql.database.azure.com;uid=loc281202;pwd=@#PHAMHUUNAM281202;database=movieserver;");
 
             var user = userservices.findUserByEmail(userInfo.email);
             if (user.email  == "")
@@ -102,10 +113,12 @@ namespace MovieServer.Services
                 using (MySqlConnection conn = GetConnection())
                 {
                     conn.Open();
-                    var str = "insert into user(email,password) values(@email,@password)";
+                    var str = "insert into user(email,password,username, face_id) values(@email,@password,@username,@face_id)";
                     MySqlCommand cmd = new MySqlCommand(str, conn);
                     cmd.Parameters.AddWithValue("email", userInfo.email);
                     cmd.Parameters.AddWithValue("password", userInfo.password);
+                    cmd.Parameters.AddWithValue("username", userInfo.username);
+                    cmd.Parameters.AddWithValue("face_id", userInfo.face_id);
                     cmd.ExecuteNonQuery();
 
                     return new
